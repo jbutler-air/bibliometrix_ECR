@@ -42,7 +42,7 @@ server <- function(input, output,session){
   values$ApiOk <- 0
   values$checkControlBar <-FALSE
   
-## NOTIFICATION ITEM ----
+  ## NOTIFICATION ITEM ----
   
   output$notificationMenu <- renderMenu({
     notifTot <- notifications()
@@ -98,144 +98,145 @@ server <- function(input, output,session){
   
   ## SIDEBAR MENU ----
   ### Apply Data----
-  observe({
-    toggleElement(
-      id ="rest_of_sidebar",
-      condition = input[["applyLoad"]]
-    )
-  })
+  # observe({
+  #   toggleElement(
+  #     id ="rest_of_sidebar",
+  #     condition = input[["applyLoad"]]
+  #     # condition = input[["applyLoad"]]
+  #   )
+  # })
   
-  output$rest_of_sidebar <- renderMenu({
-    sidebarMenu(
-      menuItem("Filters",tabName = "filters",icon = fa_i(name ="filter")),
-      menuItem("Overview",tabName = "overview",icon=fa_i(name = "table"),startExpanded = FALSE,
-               menuSubItem("Main Information",tabName="mainInfo",icon = icon("chevron-right",lib = "glyphicon")),
-               menuSubItem("Annual Scientific Production",tabName = "annualScPr",icon = icon("chevron-right",lib = "glyphicon")),
-               menuSubItem("Average Citations per Year",tabName = "averageCitPerYear",icon = icon("chevron-right",lib = "glyphicon")),
-               menuSubItem("Three-Field Plot", tabName ="threeFieldPlot",icon = icon("chevron-right",lib = "glyphicon"))),
-      menuItem("Sources", tabName = "sources",icon = fa_i(name ="book"), startExpanded = FALSE,
-               menuSubItem("Most Relevant Sources", tabName = "relevantSources",icon = icon("chevron-right",lib = "glyphicon")),
-               menuSubItem("Most Local Cited Sources",tabName = "localCitedSources",icon = icon("chevron-right",lib = "glyphicon")),
-               menuSubItem("Bradford's Law",tabName = "bradford",icon = icon("chevron-right",lib = "glyphicon")),
-               menuSubItem("Source Impact",tabName = "sourceImpact",icon = icon("chevron-right",lib = "glyphicon")),
-               menuSubItem("Source Dynamics",tabName = "sourceDynamics",icon = icon("chevron-right",lib = "glyphicon"))),
-      menuItem("Authors", tabName = "authors",icon = fa_i(name="user"),startExpanded = FALSE,
-               "Authors",
-               menuSubItem("Most Relevant Authors", tabName = "mostRelAuthors",icon = icon("chevron-right", lib = "glyphicon")),
-               menuSubItem("Most Local Cited Authors",tabName = "mostLocalCitedAuthors",icon = icon("chevron-right", lib = "glyphicon")),
-               menuSubItem("Authors' Production over Time",tabName = "authorsProdOverTime",icon = icon("chevron-right", lib = "glyphicon")),
-               menuSubItem("Lotka's Law",tabName = "lotka",icon = icon("chevron-right", lib = "glyphicon")),
-               menuSubItem("Author Impact",tabName = "authorImpact",icon = icon("chevron-right", lib = "glyphicon")),
-               "Affiliations",
-               menuSubItem("Most Relevant Affiliations",tabName = "mostRelAffiliations",icon = icon("chevron-right", lib = "glyphicon")),
-               menuSubItem("Affiliations' Production over Time",tabName = "AffOverTime",icon = icon("chevron-right", lib = "glyphicon")),
-               "Countries",
-               menuSubItem("Corresponding Author's Country",tabName = "correspAuthorCountry",icon = icon("chevron-right", lib = "glyphicon")),
-               menuSubItem("Country Scientific Production",tabName = "countryScientProd",icon = icon("chevron-right", lib = "glyphicon")),
-               menuSubItem("Countries' Production over Time",tabName = "COOverTime",icon = icon("chevron-right", lib = "glyphicon")),
-               menuSubItem("Most Cited Countries",tabName = "mostCitedCountries",icon = icon("chevron-right", lib = "glyphicon"))
-      ),
-      menuItem("Documents", tabName = "documents",icon = fa_i(name="layer-group"), startExpanded = FALSE,
-               "Documents",
-               menuSubItem("Most Global Cited Documents",tabName = "mostGlobalCitDoc",icon = icon("chevron-right", lib = "glyphicon")),
-               menuSubItem("Most Local Cited Documents",tabName = "mostLocalCitDoc",icon = icon("chevron-right", lib = "glyphicon")),
-               "Cited References",
-               menuSubItem("Most Local Cited References",tabName = "mostLocalCitRef",icon = icon("chevron-right", lib = "glyphicon")),
-               menuSubItem("References Spectroscopy",tabName = "ReferenceSpect",icon = icon("chevron-right", lib = "glyphicon")),
-               "Words",
-               menuSubItem("Most Frequent Words",tabName = "mostFreqWords",icon = icon("chevron-right", lib = "glyphicon")),
-               menuSubItem("WordCloud", tabName = "wcloud",icon = icon("chevron-right", lib = "glyphicon")),
-               menuSubItem("TreeMap",tabName = "treemap",icon = icon("chevron-right", lib = "glyphicon")),
-               menuSubItem("Word Dynamics",tabName = "wordDynamics",icon = icon("chevron-right", lib = "glyphicon")),
-               menuSubItem("Trend Topics",tabName = "trendTopic",icon = icon("chevron-right", lib = "glyphicon"))
-      ),
-      menuItem("Clustering", tabName = "clustering",icon = fa_i(name ="spinner"),startExpanded = FALSE,
-               menuSubItem("Clustering by Coupling",tabName = "coupling",icon = icon("chevron-right", lib = "glyphicon"))),
-      menuItem("Conceptual Structure",tabName = "concepStructure",icon = fa_i(name="spell-check"),startExpanded = FALSE,
-               "Network Approach",
-               menuSubItem("Co-occurence Network",tabName = "coOccurenceNetwork",icon = icon("chevron-right", lib = "glyphicon") ),
-               menuSubItem("Thematic Map",tabName = "thematicMap", icon = icon("chevron-right", lib = "glyphicon")),
-               menuSubItem("Thematic Evolution",tabName = "thematicEvolution", icon = icon("chevron-right", lib = "glyphicon")),
-               "Factorial Approach",
-               menuSubItem("Factorial Analysis", tabName = "factorialAnalysis", icon = icon("chevron-right", lib = "glyphicon"))),
-      menuItem("Intellectual Structure",tabName = "intStruct",icon = fa_i(name="gem"), startExpanded = FALSE,
-               menuSubItem("Co-citation Network",tabName = "coCitationNetwork", icon = icon("chevron-right", lib = "glyphicon")),
-               menuSubItem("Historiograph",tabName = "historiograph", icon = icon("chevron-right", lib = "glyphicon"))),
-      menuItem("Social Structure",tabName = "socialStruct", icon = fa_i("users"),startExpanded = FALSE,
-               menuSubItem("Collaboration Network",tabName = "collabNetwork",icon = icon("chevron-right", lib = "glyphicon")),
-               menuSubItem("Collaboration WorldMap", tabName = "collabWorldMap",icon = icon("chevron-right", lib = "glyphicon")))
-    )
-  })
+  # output$rest_of_sidebar <- renderMenu({
+  #   sidebarMenu(
+  #     menuItem("Filters",tabName = "filters",icon = fa_i(name ="filter")),
+  #     menuItem("Overview",tabName = "overview",icon=fa_i(name = "table"),startExpanded = FALSE,
+  #              menuSubItem("Main Information",tabName="mainInfo",icon = icon("chevron-right",lib = "glyphicon")),
+  #              menuSubItem("Annual Scientific Production",tabName = "annualScPr",icon = icon("chevron-right",lib = "glyphicon")),
+  #              menuSubItem("Average Citations per Year",tabName = "averageCitPerYear",icon = icon("chevron-right",lib = "glyphicon")),
+  #              menuSubItem("Three-Field Plot", tabName ="threeFieldPlot",icon = icon("chevron-right",lib = "glyphicon"))),
+  #     menuItem("Sources", tabName = "sources",icon = fa_i(name ="book"), startExpanded = FALSE,
+  #              menuSubItem("Most Relevant Sources", tabName = "relevantSources",icon = icon("chevron-right",lib = "glyphicon")),
+  #              menuSubItem("Most Local Cited Sources",tabName = "localCitedSources",icon = icon("chevron-right",lib = "glyphicon")),
+  #              menuSubItem("Bradford's Law",tabName = "bradford",icon = icon("chevron-right",lib = "glyphicon")),
+  #              menuSubItem("Source Impact",tabName = "sourceImpact",icon = icon("chevron-right",lib = "glyphicon")),
+  #              menuSubItem("Source Dynamics",tabName = "sourceDynamics",icon = icon("chevron-right",lib = "glyphicon"))),
+  #     menuItem("Authors", tabName = "authors",icon = fa_i(name="user"),startExpanded = FALSE,
+  #              "Authors",
+  #              menuSubItem("Most Relevant Authors", tabName = "mostRelAuthors",icon = icon("chevron-right", lib = "glyphicon")),
+  #              menuSubItem("Most Local Cited Authors",tabName = "mostLocalCitedAuthors",icon = icon("chevron-right", lib = "glyphicon")),
+  #              menuSubItem("Authors' Production over Time",tabName = "authorsProdOverTime",icon = icon("chevron-right", lib = "glyphicon")),
+  #              menuSubItem("Lotka's Law",tabName = "lotka",icon = icon("chevron-right", lib = "glyphicon")),
+  #              menuSubItem("Author Impact",tabName = "authorImpact",icon = icon("chevron-right", lib = "glyphicon")),
+  #              "Affiliations",
+  #              menuSubItem("Most Relevant Affiliations",tabName = "mostRelAffiliations",icon = icon("chevron-right", lib = "glyphicon")),
+  #              menuSubItem("Affiliations' Production over Time",tabName = "AffOverTime",icon = icon("chevron-right", lib = "glyphicon")),
+  #              "Countries",
+  #              menuSubItem("Corresponding Author's Country",tabName = "correspAuthorCountry",icon = icon("chevron-right", lib = "glyphicon")),
+  #              menuSubItem("Country Scientific Production",tabName = "countryScientProd",icon = icon("chevron-right", lib = "glyphicon")),
+  #              menuSubItem("Countries' Production over Time",tabName = "COOverTime",icon = icon("chevron-right", lib = "glyphicon")),
+  #              menuSubItem("Most Cited Countries",tabName = "mostCitedCountries",icon = icon("chevron-right", lib = "glyphicon"))
+  #     ),
+  #     menuItem("Documents", tabName = "documents",icon = fa_i(name="layer-group"), startExpanded = FALSE,
+  #              "Documents",
+  #              menuSubItem("Most Global Cited Documents",tabName = "mostGlobalCitDoc",icon = icon("chevron-right", lib = "glyphicon")),
+  #              menuSubItem("Most Local Cited Documents",tabName = "mostLocalCitDoc",icon = icon("chevron-right", lib = "glyphicon")),
+  #              "Cited References",
+  #              menuSubItem("Most Local Cited References",tabName = "mostLocalCitRef",icon = icon("chevron-right", lib = "glyphicon")),
+  #              menuSubItem("References Spectroscopy",tabName = "ReferenceSpect",icon = icon("chevron-right", lib = "glyphicon")),
+  #              "Words",
+  #              menuSubItem("Most Frequent Words",tabName = "mostFreqWords",icon = icon("chevron-right", lib = "glyphicon")),
+  #              menuSubItem("WordCloud", tabName = "wcloud",icon = icon("chevron-right", lib = "glyphicon")),
+  #              menuSubItem("TreeMap",tabName = "treemap",icon = icon("chevron-right", lib = "glyphicon")),
+  #              menuSubItem("Word Dynamics",tabName = "wordDynamics",icon = icon("chevron-right", lib = "glyphicon")),
+  #              menuSubItem("Trend Topics",tabName = "trendTopic",icon = icon("chevron-right", lib = "glyphicon"))
+  #     ),
+  #     menuItem("Clustering", tabName = "clustering",icon = fa_i(name ="spinner"),startExpanded = FALSE,
+  #              menuSubItem("Clustering by Coupling",tabName = "coupling",icon = icon("chevron-right", lib = "glyphicon"))),
+  #     menuItem("Conceptual Structure",tabName = "concepStructure",icon = fa_i(name="spell-check"),startExpanded = FALSE,
+  #              "Network Approach",
+  #              menuSubItem("Co-occurence Network",tabName = "coOccurenceNetwork",icon = icon("chevron-right", lib = "glyphicon") ),
+  #              menuSubItem("Thematic Map",tabName = "thematicMap", icon = icon("chevron-right", lib = "glyphicon")),
+  #              menuSubItem("Thematic Evolution",tabName = "thematicEvolution", icon = icon("chevron-right", lib = "glyphicon")),
+  #              "Factorial Approach",
+  #              menuSubItem("Factorial Analysis", tabName = "factorialAnalysis", icon = icon("chevron-right", lib = "glyphicon"))),
+  #     menuItem("Intellectual Structure",tabName = "intStruct",icon = fa_i(name="gem"), startExpanded = FALSE,
+  #              menuSubItem("Co-citation Network",tabName = "coCitationNetwork", icon = icon("chevron-right", lib = "glyphicon")),
+  #              menuSubItem("Historiograph",tabName = "historiograph", icon = icon("chevron-right", lib = "glyphicon"))),
+  #     menuItem("Social Structure",tabName = "socialStruct", icon = fa_i("users"),startExpanded = FALSE,
+  #              menuSubItem("Collaboration Network",tabName = "collabNetwork",icon = icon("chevron-right", lib = "glyphicon")),
+  #              menuSubItem("Collaboration WorldMap", tabName = "collabWorldMap",icon = icon("chevron-right", lib = "glyphicon")))
+  #   )
+  # })
   
-  ### Apply API ----
-  observe({
-    toggleElement(
-      id ="rest_of_sidebar",
-      condition = input[["apiApply"]]
-    )
-  })
+  # ### Apply API ----
+  # observe({
+  #   toggleElement(
+  #     id ="rest_of_sidebar",
+  #     condition = input[["apiApply"]]
+  #   )
+  # })
   
-  output$rest_of_sidebar <- renderMenu({
-    sidebarMenu(
-      menuItem("Filters",tabName = "filters",icon = fa_i(name ="filter")),
-      menuItem("Overview",tabName = "overview",icon=fa_i(name = "table"),startExpanded = FALSE,
-               menuSubItem("Main Information",tabName="mainInfo",icon = icon("chevron-right",lib = "glyphicon")),
-               menuSubItem("Annual Scientific Production",tabName = "annualScPr",icon = icon("chevron-right",lib = "glyphicon")),
-               menuSubItem("Average Citations per Year",tabName = "averageCitPerYear",icon = icon("chevron-right",lib = "glyphicon")),
-               menuSubItem("Three-Field Plot", tabName ="threeFieldPlot",icon = icon("chevron-right",lib = "glyphicon"))),
-      menuItem("Sources", tabName = "sources",icon = fa_i(name ="book"), startExpanded = FALSE,
-               menuSubItem("Most Relevant Sources", tabName = "relevantSources",icon = icon("chevron-right",lib = "glyphicon")),
-               menuSubItem("Most Local Cited Sources",tabName = "localCitedSources",icon = icon("chevron-right",lib = "glyphicon")),
-               menuSubItem("Bradford's Law",tabName = "bradford",icon = icon("chevron-right",lib = "glyphicon")),
-               menuSubItem("Source Impact",tabName = "sourceImpact",icon = icon("chevron-right",lib = "glyphicon")),
-               menuSubItem("Source Dynamics",tabName = "sourceDynamics",icon = icon("chevron-right",lib = "glyphicon"))),
-      menuItem("Authors", tabName = "authors",icon = fa_i(name="user"),startExpanded = FALSE,
-               "Authors",
-               menuSubItem("Most Relevant Authors", tabName = "mostRelAuthors",icon = icon("chevron-right", lib = "glyphicon")),
-               menuSubItem("Most Local Cited Authors",tabName = "mostLocalCitedAuthors",icon = icon("chevron-right", lib = "glyphicon")),
-               menuSubItem("Authors' Production over Time",tabName = "authorsProdOverTime",icon = icon("chevron-right", lib = "glyphicon")),
-               menuSubItem("Lotka's Law",tabName = "lotka",icon = icon("chevron-right", lib = "glyphicon")),
-               menuSubItem("Author Impact",tabName = "authorImpact",icon = icon("chevron-right", lib = "glyphicon")),
-               "Affiliations",
-               menuSubItem("Most Relevant Affiliations",tabName = "mostRelAffiliations",icon = icon("chevron-right", lib = "glyphicon")),
-               menuSubItem("Affiliations' Production over Time",tabName = "AffOverTime",icon = icon("chevron-right", lib = "glyphicon")),
-               "Countries",
-               menuSubItem("Corresponding Author's Country",tabName = "correspAuthorCountry",icon = icon("chevron-right", lib = "glyphicon")),
-               menuSubItem("Country Scientific Production",tabName = "countryScientProd",icon = icon("chevron-right", lib = "glyphicon")),
-               menuSubItem("Countries' Production over Time",tabName = "COOverTime",icon = icon("chevron-right", lib = "glyphicon")),
-               menuSubItem("Most Cited Countries",tabName = "mostCitedCountries",icon = icon("chevron-right", lib = "glyphicon"))
-      ),
-      menuItem("Documents", tabName = "documents",icon = fa_i(name="layer-group"), startExpanded = FALSE,
-               "Documents",
-               menuSubItem("Most Global Cited Documents",tabName = "mostGlobalCitDoc",icon = icon("chevron-right", lib = "glyphicon")),
-               menuSubItem("Most Local Cited Documents",tabName = "mostLocalCitDoc",icon = icon("chevron-right", lib = "glyphicon")),
-               "Cited References",
-               menuSubItem("Most Local Cited References",tabName = "mostLocalCitRef",icon = icon("chevron-right", lib = "glyphicon")),
-               menuSubItem("Reference Spectroscopy",tabName = "ReferenceSpect",icon = icon("chevron-right", lib = "glyphicon")),
-               "Words",
-               menuSubItem("Most Frequent Words",tabName = "mostFreqWords",icon = icon("chevron-right", lib = "glyphicon")),
-               menuSubItem("WordCloud", tabName = "wcloud",icon = icon("chevron-right", lib = "glyphicon")),
-               menuSubItem("TreeMap",tabName = "treemap",icon = icon("chevron-right", lib = "glyphicon")),
-               menuSubItem("Word Dynamics",tabName = "wordDynamics",icon = icon("chevron-right", lib = "glyphicon")),
-               menuSubItem("Trend Topics",tabName = "trendTopic",icon = icon("chevron-right", lib = "glyphicon"))
-      ),
-      menuItem("Clustering", tabName = "clustering",icon = fa_i(name ="spinner"),startExpanded = FALSE,
-               menuSubItem("Clustering by Coupling",tabName = "coupling",icon = icon("chevron-right", lib = "glyphicon"))),
-      menuItem("Conceptual Structure",tabName = "concepStructure",icon = fa_i(name="spell-check"),startExpanded = FALSE,
-               "Network Approach",
-               menuSubItem("Co-occurence Network",tabName = "coOccurenceNetwork",icon = icon("chevron-right", lib = "glyphicon") ),
-               menuSubItem("Thematic Map",tabName = "thematicMap", icon = icon("chevron-right", lib = "glyphicon")),
-               menuSubItem("Thematic Evolution",tabName = "thematicEvolution", icon = icon("chevron-right", lib = "glyphicon")),
-               "Factorial Approach",
-               menuSubItem("Factorial Analysis", tabName = "factorialAnalysis", icon = icon("chevron-right", lib = "glyphicon"))),
-      menuItem("Intellectual Structure",tabName = "intStruct",icon = fa_i(name="gem"), startExpanded = FALSE,
-               menuSubItem("Co-citation Network",tabName = "coCitationNetwork", icon = icon("chevron-right", lib = "glyphicon")),
-               menuSubItem("Historiograph",tabName = "historiograph", icon = icon("chevron-right", lib = "glyphicon"))),
-      menuItem("Social Structure",tabName = "socialStruct", icon = fa_i("users"),startExpanded = FALSE,
-               menuSubItem("Collaboration Network",tabName = "collabNetwork",icon = icon("chevron-right", lib = "glyphicon")),
-               menuSubItem("Collaboration WorldMap", tabName = "collabWorldMap",icon = icon("chevron-right", lib = "glyphicon")))
-    )
-  })
+  # output$rest_of_sidebar <- renderMenu({
+  #   sidebarMenu(
+  #     menuItem("Filters",tabName = "filters",icon = fa_i(name ="filter")),
+  #     menuItem("Overview",tabName = "overview",icon=fa_i(name = "table"),startExpanded = FALSE,
+  #              menuSubItem("Main Information",tabName="mainInfo",icon = icon("chevron-right",lib = "glyphicon")),
+  #              menuSubItem("Annual Scientific Production",tabName = "annualScPr",icon = icon("chevron-right",lib = "glyphicon")),
+  #              menuSubItem("Average Citations per Year",tabName = "averageCitPerYear",icon = icon("chevron-right",lib = "glyphicon")),
+  #              menuSubItem("Three-Field Plot", tabName ="threeFieldPlot",icon = icon("chevron-right",lib = "glyphicon"))),
+  #     menuItem("Sources", tabName = "sources",icon = fa_i(name ="book"), startExpanded = FALSE,
+  #              menuSubItem("Most Relevant Sources", tabName = "relevantSources",icon = icon("chevron-right",lib = "glyphicon")),
+  #              menuSubItem("Most Local Cited Sources",tabName = "localCitedSources",icon = icon("chevron-right",lib = "glyphicon")),
+  #              menuSubItem("Bradford's Law",tabName = "bradford",icon = icon("chevron-right",lib = "glyphicon")),
+  #              menuSubItem("Source Impact",tabName = "sourceImpact",icon = icon("chevron-right",lib = "glyphicon")),
+  #              menuSubItem("Source Dynamics",tabName = "sourceDynamics",icon = icon("chevron-right",lib = "glyphicon"))),
+  #     menuItem("Authors", tabName = "authors",icon = fa_i(name="user"),startExpanded = FALSE,
+  #              "Authors",
+  #              menuSubItem("Most Relevant Authors", tabName = "mostRelAuthors",icon = icon("chevron-right", lib = "glyphicon")),
+  #              menuSubItem("Most Local Cited Authors",tabName = "mostLocalCitedAuthors",icon = icon("chevron-right", lib = "glyphicon")),
+  #              menuSubItem("Authors' Production over Time",tabName = "authorsProdOverTime",icon = icon("chevron-right", lib = "glyphicon")),
+  #              menuSubItem("Lotka's Law",tabName = "lotka",icon = icon("chevron-right", lib = "glyphicon")),
+  #              menuSubItem("Author Impact",tabName = "authorImpact",icon = icon("chevron-right", lib = "glyphicon")),
+  #              "Affiliations",
+  #              menuSubItem("Most Relevant Affiliations",tabName = "mostRelAffiliations",icon = icon("chevron-right", lib = "glyphicon")),
+  #              menuSubItem("Affiliations' Production over Time",tabName = "AffOverTime",icon = icon("chevron-right", lib = "glyphicon")),
+  #              "Countries",
+  #              menuSubItem("Corresponding Author's Country",tabName = "correspAuthorCountry",icon = icon("chevron-right", lib = "glyphicon")),
+  #              menuSubItem("Country Scientific Production",tabName = "countryScientProd",icon = icon("chevron-right", lib = "glyphicon")),
+  #              menuSubItem("Countries' Production over Time",tabName = "COOverTime",icon = icon("chevron-right", lib = "glyphicon")),
+  #              menuSubItem("Most Cited Countries",tabName = "mostCitedCountries",icon = icon("chevron-right", lib = "glyphicon"))
+  #     ),
+  #     menuItem("Documents", tabName = "documents",icon = fa_i(name="layer-group"), startExpanded = FALSE,
+  #              "Documents",
+  #              menuSubItem("Most Global Cited Documents",tabName = "mostGlobalCitDoc",icon = icon("chevron-right", lib = "glyphicon")),
+  #              menuSubItem("Most Local Cited Documents",tabName = "mostLocalCitDoc",icon = icon("chevron-right", lib = "glyphicon")),
+  #              "Cited References",
+  #              menuSubItem("Most Local Cited References",tabName = "mostLocalCitRef",icon = icon("chevron-right", lib = "glyphicon")),
+  #              menuSubItem("Reference Spectroscopy",tabName = "ReferenceSpect",icon = icon("chevron-right", lib = "glyphicon")),
+  #              "Words",
+  #              menuSubItem("Most Frequent Words",tabName = "mostFreqWords",icon = icon("chevron-right", lib = "glyphicon")),
+  #              menuSubItem("WordCloud", tabName = "wcloud",icon = icon("chevron-right", lib = "glyphicon")),
+  #              menuSubItem("TreeMap",tabName = "treemap",icon = icon("chevron-right", lib = "glyphicon")),
+  #              menuSubItem("Word Dynamics",tabName = "wordDynamics",icon = icon("chevron-right", lib = "glyphicon")),
+  #              menuSubItem("Trend Topics",tabName = "trendTopic",icon = icon("chevron-right", lib = "glyphicon"))
+  #     ),
+  #     menuItem("Clustering", tabName = "clustering",icon = fa_i(name ="spinner"),startExpanded = FALSE,
+  #              menuSubItem("Clustering by Coupling",tabName = "coupling",icon = icon("chevron-right", lib = "glyphicon"))),
+  #     menuItem("Conceptual Structure",tabName = "concepStructure",icon = fa_i(name="spell-check"),startExpanded = FALSE,
+  #              "Network Approach",
+  #              menuSubItem("Co-occurence Network",tabName = "coOccurenceNetwork",icon = icon("chevron-right", lib = "glyphicon") ),
+  #              menuSubItem("Thematic Map",tabName = "thematicMap", icon = icon("chevron-right", lib = "glyphicon")),
+  #              menuSubItem("Thematic Evolution",tabName = "thematicEvolution", icon = icon("chevron-right", lib = "glyphicon")),
+  #              "Factorial Approach",
+  #              menuSubItem("Factorial Analysis", tabName = "factorialAnalysis", icon = icon("chevron-right", lib = "glyphicon"))),
+  #     menuItem("Intellectual Structure",tabName = "intStruct",icon = fa_i(name="gem"), startExpanded = FALSE,
+  #              menuSubItem("Co-citation Network",tabName = "coCitationNetwork", icon = icon("chevron-right", lib = "glyphicon")),
+  #              menuSubItem("Historiograph",tabName = "historiograph", icon = icon("chevron-right", lib = "glyphicon"))),
+  #     menuItem("Social Structure",tabName = "socialStruct", icon = fa_i("users"),startExpanded = FALSE,
+  #              menuSubItem("Collaboration Network",tabName = "collabNetwork",icon = icon("chevron-right", lib = "glyphicon")),
+  #              menuSubItem("Collaboration WorldMap", tabName = "collabWorldMap",icon = icon("chevron-right", lib = "glyphicon")))
+  #   )
+  # })
   
   ## Load Menu ----
   format <- function(obj){
@@ -279,231 +280,241 @@ server <- function(input, output,session){
     }
   }
   
-  DATAloading<- eventReactive(input$applyLoad,{
-    # input$file1 will be NULL initially. After the user selects
-    # and uploads a file, it will be a data frame with 'name',
-    # 'size', 'type', and 'datapath' columns. The 'datapath'
-    # column will contain the local filenames where the data can
-    # be found.
-    if (input$load=="demo"){
-      data(management, package="bibliometrixData")
-      values = initial(values)
-      row.names(management) <- management$SR
-      values$M <- management
-      values$Morig = management
-      values$Histfield = "NA"
-      values$results = list("NA")
-      return()
-    }
-    inFile <- input$file1
-    
-    if (!is.null(inFile) & input$load=="import") {
-      ext <- getFileNameExtension(inFile$datapath)
-      switch(
-        input$dbsource,
-        isi = {
-          switch(ext,
-                 ###  WoS ZIP Files
-                 zip = {
-                   D <-  unzip(inFile$datapath)
-                   withProgress(message = 'Conversion in progress',
-                                value = 0, {
-                                  M <- convert2df(D,
-                                                  dbsource = input$dbsource,
-                                                  format = format(D))
-                                })
-                 },
-                 ### WoS Txt/Bib Files
-                 {
-                   withProgress(message = 'Conversion in progress',
-                                value = 0, {
-                                  M <- convert2df(inFile$datapath,
-                                                  dbsource = input$dbsource,
-                                                  format = format(inFile$datapath))
-                                })
-                 })
-        },
-        scopus = {
-          switch(ext,
-                 ###  Scopus ZIP Files
-                 zip = {
-                   D <- unzip(inFile$datapath)
-                   withProgress(message = 'Conversion in progress',
-                                value = 0, {
-                                  M <- convert2df(D,
-                                                  dbsource = input$dbsource,
-                                                  format = format(D))
-                                })
-                 },
-                 ### Scopus CSV/Bib Files
-                 csv = {
-                   withProgress(message = 'Conversion in progress',
-                                value = 0, {
-                                  M <- convert2df(inFile$datapath,
-                                                  dbsource = input$dbsource,
-                                                  format = "csv")
-                                })
-                 },
-                 bib = {
-                   withProgress(message = 'Conversion in progress',
-                                value = 0, {
-                                  M <- convert2df(inFile$datapath,
-                                                  dbsource = input$dbsource,
-                                                  format = "bibtex")
-                                })
-                 })
-        },
-        lens = {
-          switch(ext,
-                 ###  Lens.org ZIP Files
-                 zip = {
-                   D <-  unzip(inFile$datapath)
-                   withProgress(message = 'Conversion in progress',
-                                value = 0, {
-                                  M <- convert2df(D,
-                                                  dbsource = input$dbsource,
-                                                  format = format(D))
-                                })
-                 },
-                 ### Lens.org CSV Files
-                 {
-                   withProgress(message = 'Conversion in progress',
-                                value = 0, {
-                                  M <- convert2df(inFile$datapath,
-                                                  dbsource = input$dbsource,
-                                                  format = format(inFile$datapath))
-                                })
-                 })
-        },
-        cochrane = {
-          switch(ext,
-                 ###  Cochrane ZIP Files
-                 zip = {
-                   D <- unzip(inFile$datapath)
-                   withProgress(message = 'Conversion in progress',
-                                value = 0, {
-                                  M <- convert2df(D,
-                                                  dbsource = input$dbsource,
-                                                  format = format(D))
-                                })
-                 },
-                 ### Cochrane txt files
-                 {
-                   withProgress(message = 'Conversion in progress',
-                                value = 0, {
-                                  M <- convert2df(inFile$datapath,
-                                                  dbsource = input$dbsource,
-                                                  format = "plaintext")
-                                })
-                 })
-        },
-        pubmed = {
-          switch(ext,
-                 ###  Pubmed ZIP Files
-                 zip = {
-                   D <- unzip(inFile$datapath)
-                   withProgress(message = 'Conversion in progress',
-                                value = 0, {
-                                  M <- convert2df(D,
-                                                  dbsource = input$dbsource,
-                                                  format = "pubmed")
-                                })
-                 },
-                 ### Pubmed txt Files
-                 txt = {
-                   withProgress(message = 'Conversion in progress',
-                                value = 0, {
-                                  M <- convert2df(inFile$datapath,
-                                                  dbsource = input$dbsource,
-                                                  format = "pubmed")
-                                })
-                 })
-        },
-        dimensions = {
-          switch(ext,
-                 ###  Dimensions ZIP Files
-                 zip = {
-                   D = unzip(inFile$datapath)
-                   withProgress(message = 'Conversion in progress',
-                                value = 0, {
-                                  M <-
-                                    convert2df(D,
-                                               dbsource = input$dbsource,
-                                               format = format(D))
-                                })
-                 },
-                 ### Dimensions Xlsx/csv Files
-                 xlsx = {
-                   withProgress(message = 'Conversion in progress',
-                                value = 0, {
-                                  M <-
-                                    convert2df(
-                                      inFile$datapath,
-                                      dbsource = "dimensions",
-                                      format = "excel"
-                                    )
-                                })
-                 },
-                 csv = {
-                   withProgress(message = 'Conversion in progress',
-                                value = 0, {
-                                  M <-
-                                    convert2df(
-                                      inFile$datapath,
-                                      dbsource = "dimensions",
-                                      format = "csv"
-                                    )
-                                })
-                 })
-          
-        }
-      )
-    } else if (!is.null(inFile) & input$load=="load") {
-      ext <- tolower(getFileNameExtension(inFile$datapath))
-      switch(ext,
-             ### excel format
-             xlsx={
-               M <- readxl::read_excel(inFile$datapath) %>% as.data.frame(stringsAsFactors=FALSE)
-               class(M) <- c("bibliometrixDB", "data.frame")
-               ### M row names
-               ### identify duplicated SRs 
-               SR=M$SR
-               tab=table(SR)
-               tab2=table(tab)
-               ind=as.numeric(names(tab2))
-               ind=ind[which(ind>1)]
-               if (length(ind)>0){
-                 for (i in ind){
-                   indice=names(which(tab==i))
-                   for (j in indice){
-                     indice2=which(SR==j)
-                     SR[indice2]=paste(SR[indice2],as.character(1:length(indice2)),sep=" ")
-                   }
-                 }
-               }
-               row.names(M) <- SR
-             },
-             ### RData format
-             rdata={
-               M <- smart_load(inFile$datapath)
-             },
-             rda={
-               M <- smart_load(inFile$datapath)
-             },
-             rds={
-               M <- readRDS(inFile$datapath)
-             })
-    } else if (is.null(inFile)) {return(NULL)}
-    
-    values = initial(values)
-    values$M <- M
-    values$Morig = M
-    values$Histfield = "NA"
-    values$results = list("NA")
-    
-  })
+  M <- smart_load('Bibliometrix-Export-File-2022-10-14.RData')
+  values = initial(values)
+  values$M <- M
+  values$Morig = M
+  values$Histfield = "NA"
+  values$results = list("NA")
+  
+  # DATAloading<- eventReactive(input$applyLoad,{
+  #   # input$file1 will be NULL initially. After the user selects
+  #   # and uploads a file, it will be a data frame with 'name',
+  #   # 'size', 'type', and 'datapath' columns. The 'datapath'
+  #   # column will contain the local filenames where the data can
+  #   # be found.
+  #   if (input$load=="demo"){
+  #     data(management, package="bibliometrixData")
+  #     values = initial(values)
+  #     row.names(management) <- management$SR
+  #     values$M <- management
+  #     values$Morig = management
+  #     values$Histfield = "NA"
+  #     values$results = list("NA")
+  #     return()
+  #   }
+  #   inFile <- input$file1
+  #  
+  #   if (!is.null(inFile) & input$load=="import") {
+  #     ext <- getFileNameExtension(inFile$datapath)
+  #     switch(
+  #       input$dbsource,
+  #       isi = {
+  #         switch(ext,
+  #                ###  WoS ZIP Files
+  #                zip = {
+  #                  D <-  unzip(inFile$datapath)
+  #                  withProgress(message = 'Conversion in progress',
+  #                               value = 0, {
+  #                                 M <- convert2df(D,
+  #                                                 dbsource = input$dbsource,
+  #                                                 format = format(D))
+  #                               })
+  #                },
+  #                ### WoS Txt/Bib Files
+  #                {
+  #                  withProgress(message = 'Conversion in progress',
+  #                               value = 0, {
+  #                                 M <- convert2df(inFile$datapath,
+  #                                                 dbsource = input$dbsource,
+  #                                                 format = format(inFile$datapath))
+  #                               })
+  #                })
+  #       },
+  #       scopus = {
+  #         switch(ext,
+  #                ###  Scopus ZIP Files
+  #                zip = {
+  #                  D <- unzip(inFile$datapath)
+  #                  withProgress(message = 'Conversion in progress',
+  #                               value = 0, {
+  #                                 M <- convert2df(D,
+  #                                                 dbsource = input$dbsource,
+  #                                                 format = format(D))
+  #                               })
+  #                },
+  #                ### Scopus CSV/Bib Files
+  #                csv = {
+  #                  withProgress(message = 'Conversion in progress',
+  #                               value = 0, {
+  #                                 M <- convert2df(inFile$datapath,
+  #                                                 dbsource = input$dbsource,
+  #                                                 format = "csv")
+  #                               })
+  #                },
+  #                bib = {
+  #                  withProgress(message = 'Conversion in progress',
+  #                               value = 0, {
+  #                                 M <- convert2df(inFile$datapath,
+  #                                                 dbsource = input$dbsource,
+  #                                                 format = "bibtex")
+  #                               })
+  #                })
+  #       },
+  #       lens = {
+  #         switch(ext,
+  #                ###  Lens.org ZIP Files
+  #                zip = {
+  #                  D <-  unzip(inFile$datapath)
+  #                  withProgress(message = 'Conversion in progress',
+  #                               value = 0, {
+  #                                 M <- convert2df(D,
+  #                                                 dbsource = input$dbsource,
+  #                                                 format = format(D))
+  #                               })
+  #                },
+  #                ### Lens.org CSV Files
+  #                {
+  #                  withProgress(message = 'Conversion in progress',
+  #                               value = 0, {
+  #                                 M <- convert2df(inFile$datapath,
+  #                                                 dbsource = input$dbsource,
+  #                                                 format = format(inFile$datapath))
+  #                               })
+  #                })
+  #       },
+  #       cochrane = {
+  #         switch(ext,
+  #                ###  Cochrane ZIP Files
+  #                zip = {
+  #                  D <- unzip(inFile$datapath)
+  #                  withProgress(message = 'Conversion in progress',
+  #                               value = 0, {
+  #                                 M <- convert2df(D,
+  #                                                 dbsource = input$dbsource,
+  #                                                 format = format(D))
+  #                               })
+  #                },
+  #                ### Cochrane txt files
+  #                {
+  #                  withProgress(message = 'Conversion in progress',
+  #                               value = 0, {
+  #                                 M <- convert2df(inFile$datapath,
+  #                                                 dbsource = input$dbsource,
+  #                                                 format = "plaintext")
+  #                               })
+  #                })
+  #       },
+  #       pubmed = {
+  #         switch(ext,
+  #                ###  Pubmed ZIP Files
+  #                zip = {
+  #                  D <- unzip(inFile$datapath)
+  #                  withProgress(message = 'Conversion in progress',
+  #                               value = 0, {
+  #                                 M <- convert2df(D,
+  #                                                 dbsource = input$dbsource,
+  #                                                 format = "pubmed")
+  #                               })
+  #                },
+  #                ### Pubmed txt Files
+  #                txt = {
+  #                  withProgress(message = 'Conversion in progress',
+  #                               value = 0, {
+  #                                 M <- convert2df(inFile$datapath,
+  #                                                 dbsource = input$dbsource,
+  #                                                 format = "pubmed")
+  #                               })
+  #                })
+  #       },
+  #       dimensions = {
+  #         switch(ext,
+  #                ###  Dimensions ZIP Files
+  #                zip = {
+  #                  D = unzip(inFile$datapath)
+  #                  withProgress(message = 'Conversion in progress',
+  #                               value = 0, {
+  #                                 M <-
+  #                                   convert2df(D,
+  #                                              dbsource = input$dbsource,
+  #                                              format = format(D))
+  #                               })
+  #                },
+  #                ### Dimensions Xlsx/csv Files
+  #                xlsx = {
+  #                  withProgress(message = 'Conversion in progress',
+  #                               value = 0, {
+  #                                 M <-
+  #                                   convert2df(
+  #                                     inFile$datapath,
+  #                                     dbsource = "dimensions",
+  #                                     format = "excel"
+  #                                   )
+  #                               })
+  #                },
+  #                csv = {
+  #                  withProgress(message = 'Conversion in progress',
+  #                               value = 0, {
+  #                                 M <-
+  #                                   convert2df(
+  #                                     inFile$datapath,
+  #                                     dbsource = "dimensions",
+  #                                     format = "csv"
+  #                                   )
+  #                               })
+  #                })
+  #        
+  #       }
+  #     )
+  #   } else if (!is.null(inFile) & input$load=="load") {
+  #     ext <- tolower(getFileNameExtension(inFile$datapath))
+  #     switch(ext,
+  #            ### excel format
+  #            xlsx={
+  #              M <- readxl::read_excel(inFile$datapath) %>% as.data.frame(stringsAsFactors=FALSE)
+  #              class(M) <- c("bibliometrixDB", "data.frame")
+  #              ### M row names
+  #              ### identify duplicated SRs 
+  #              SR=M$SR
+  #              tab=table(SR)
+  #              tab2=table(tab)
+  #              ind=as.numeric(names(tab2))
+  #              ind=ind[which(ind>1)]
+  #              if (length(ind)>0){
+  #                for (i in ind){
+  #                  indice=names(which(tab==i))
+  #                  for (j in indice){
+  #                    indice2=which(SR==j)
+  #                    SR[indice2]=paste(SR[indice2],as.character(1:length(indice2)),sep=" ")
+  #                  }
+  #                }
+  #              }
+  #              row.names(M) <- SR
+  #            },
+  #            ### RData format
+  #            rdata={
+  #              M <- smart_load(inFile$datapath)
+  #            },
+  #            rda={
+  #              M <- smart_load(inFile$datapath)
+  #            },
+  #            rds={
+  #              M <- readRDS(inFile$datapath)
+  #            })
+  #   } else if (is.null(inFile)) {return(NULL)}
+  #  
+  #   values = initial(values)
+  #   values$M <- M
+  #   values$Morig = M
+  #   values$Histfield = "NA"
+  #   values$results = list("NA")
+  #  
+  # })
+  #######
   output$contents <- DT::renderDT({
-    DATAloading()   
+    # subsection of DATAloading to bypass data loader requirement
+
+    # DATAloading()   
     MData = as.data.frame(apply(values$M, 2, function(x) {
       substring(x, 1, 150)
     }), stringsAsFactors = FALSE)
