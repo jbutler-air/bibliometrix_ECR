@@ -38,7 +38,7 @@
 #' @export
 histPlot<-function(histResults, n=20, size = 5, labelsize = 5, title_as_label = FALSE, label = "short", verbose = TRUE){
   
-  colorlist <-  c(brewer.pal(9, 'Set1')[-6], brewer.pal(8, 'Set2')[-7], brewer.pal(12, 'Paired')[-11],brewer.pal(12, 'Set3')[-c(2,8,12)])
+  colorlist <-  c(RColorBrewer::brewer.pal(9, 'Set1')[-6], RColorBrewer::brewer.pal(8, 'Set2')[-7], RColorBrewer::brewer.pal(12, 'Paired')[-11],RColorBrewer::brewer.pal(12, 'Set3')[-c(2,8,12)])
   ## legacy with old argument size
   if (isTRUE(size)){
     size <- 5

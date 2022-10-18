@@ -34,7 +34,7 @@ networkStat<-function(object, stat="network",type="degree"){
   
   if (!inherits(object,"igraph")){
   # Create igraph object
-  net <- graph.adjacency(object,mode="undirected",weighted=NULL)
+  net <- igraph::graph.adjacency(object,mode="undirected",weighted=NULL)
   V(net)$id <- colnames(object)}else{
     net <- object
     V(net)$id=V(net)$name}

@@ -6,6 +6,33 @@
 
 
 ### COMMON FUNCTIONS ####
+library(stats)
+library(grDevices)
+library(bibliometrixData)
+library(dimensionsR)
+library(dplyr)
+library(DT)
+library(factoextra)
+library(FactoMineR)
+library(forcats)
+library(ggplot2)
+library(ggrepel)
+library(igraph)
+library(Matrix)
+library(plotly)
+library(openxlsx)
+library(pubmedR)
+library(RColorBrewer)
+library(readr)
+library(readxl)
+library(rscopus)
+library(shiny)
+library(SnowballC)
+library(stringdist)
+library(stringr)
+library(tidyr)
+library(tidytext)
+
 
 getFileNameExtension <- function (fn) {
   # remove a path

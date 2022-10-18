@@ -107,7 +107,7 @@ threeFieldsPlot <- function(M, fields=c("AU","DE","SO"),n=c(20,20,20)){
       coordX=rep(seq(from= 0, to= 1, by= 1/(Kx-0.8)),as.numeric(table(.data$level))),
       coordY= rep(0.1, Ky))
            
-  Nodes$color <- colorRampPalette(brewer.pal(10,"Spectral"))(nrow(Nodes))
+  Nodes$color <- colorRampPalette(RColorBrewer::brewer.pal(10,"Spectral"))(nrow(Nodes))
   Nodes$id <- (1:nrow(Nodes))-1
   
   ## identify and remove nodes with empty edges
@@ -142,7 +142,7 @@ threeFieldsPlot <- function(M, fields=c("AU","DE","SO"),n=c(20,20,20)){
       y = Nodes$coordY,
       #color = "black",
       color = Nodes$color
-      #colors = colorRampPalette(brewer.pal(10,"Spectral"))(nrow(Nodes)),
+      #colors = colorRampPalette(RColorBrewer::brewer.pal(10,"Spectral"))(nrow(Nodes)),
       ,pad = 4
       ), # 10 Pixel
     link = list(
